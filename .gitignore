@@ -6,3 +6,27 @@ node_modules/
 public/
 .deploy*/
 _multiconfig.yml
+# Maven
+target/
+dist/
+
+# JetBrains IDE
+.idea/
+
+# Unit test reports
+TEST*.xml
+
+# Applications
+*.app
+*.exe
+*.war
+
+# Large media files
+*.mp4
+*.tiff
+*.avi
+*.flv
+*.mov
+*.wmv
+
+*.iml
