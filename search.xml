@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>使用消息队列的主要目的：解耦、异步、削峰填谷</title>
+    <url>/2024/03/19/First/</url>
+    <content><![CDATA[<p><strong>解耦</strong>：在一个复杂的系统中，不同的模块或服务之间可能需要互相依赖，如果直接使用<code>函数调用</code>或者<code>API</code>调用的方式，会造成模块之间的耦合，当其中一个模块发生改变时，需要同时修改调用方和被调用方的代码。而使用消息队列作为中间件，不同的模块可以将消息发送到消息队列中，不需要知道具体的接收方是谁，接收方可以独立的消费消息，实现了模块之间的解耦。</p>
+<p><strong>异步</strong>：有些操作比较耗时，例如<code>发送邮件</code>、<code>生成报表</code>等，如果使用同步的方式处理，会阻塞主线程或者进程，导致系统的性能下降。而使用消息队列，可以讲这些操作封装成消息，放入消息队列中，异步处理这些操作，不影响主流程的执行，提高了系统的性能和相应速度。</p>
+]]></content>
+      <categories>
+        <category>Kafka</category>
+      </categories>
+      <tags>
+        <tag>面试题目</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello Hexo</title>
+    <url>/2023/04/28/Hello-Hexo/</url>
+    <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<h2 id="Next"><a href="#Next" class="headerlink" title="Next"></a>Next</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm serve</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="https://www.baidu.com/">Writing</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo教程</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kafka如何实现顺序消费？</title>
+    <url>/2024/03/19/Second/</url>
+    <content><![CDATA[<p>Kafka的消息是存储在指定的topic中的某个<code>partition</code>中的。<br>并且一个topic是可以有多个partition的，同一个partition中的消息是有序的，但是跨partition，或者跨topic的消息就是无序的了。</p>
+<h5 id="为什么同一个partition的消息是有序的？"><a href="#为什么同一个partition的消息是有序的？" class="headerlink" title="为什么同一个partition的消息是有序的？"></a>为什么同一个partition的消息是有序的？</h5><p>因为当生产者向某个partition发送消息的时候，消息会被追加到该partition的日志文件中，并且被分配一个唯一的offset，文件的读写是有顺序的。而消费者在从该分区消费消息时，会从该分区的最早<code>offset</code>开始逐个读取消息，保证了消息的顺序性。</p>
+<h5 id="基于此，要想实现消息的顺序消费，可以有以下几个办法："><a href="#基于此，要想实现消息的顺序消费，可以有以下几个办法：" class="headerlink" title="基于此，要想实现消息的顺序消费，可以有以下几个办法："></a>基于此，要想实现消息的顺序消费，可以有以下几个办法：</h5><ol>
+<li>在一个topic中，只创建一个partition，这样这个topic下的消息都会按照顺序保存在同一个partition中，这就保证了消息的顺序消费。</li>
+<li>发送消息的时候指定partition，如果一个topic下有多个partition，那么可以把需要保证顺序的消息都发送到同一个partition中，这样也能做到顺序消费。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Kafka</category>
+      </categories>
+      <tags>
+        <tag>面试题目</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hello World</title>
+    <url>/2023/05/04/hello-world/</url>
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo教程</tag>
+      </tags>
+  </entry>
+</search>
