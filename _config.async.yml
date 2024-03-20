@@ -1,0 +1,103 @@
+theme:
+  switch: true
+  default: style-auto # style-light style-dark style-auto
+
+user:
+  name: 张玉硕
+  first_name: 页
+  last_name: 主
+  email: yushuo6174@126.com
+  domain: https://www.baidu.com
+  avatar: /img/avatar.jpg
+  describe: 网站简介。
+  ruleText: 暂不接受个人博客以外的友链申请，确保您的网站内容积极向上，文章至少30篇，原创70%以上，部署HTTPS。
+
+top_bars:
+  - title: home
+    url: /
+    children:
+      - title: 百度
+        url: https://www.baidu.com
+  - title: archives
+    url: /archives/
+    noswup: true
+
+sidebar:
+  social: # 社交地址
+    - name: github
+      icon: fab fa-github
+      url: https://github.com
+    - name: gitee
+      icon: iconfont cg-gitee
+      url: https://gitee.com
+  typedTextPrefix: I`m
+  typedText: [ "Java Developer" ]
+  info: # 个人信息
+    - key: 姓名
+      val: 张玉硕
+    - key: 地址
+      val: 北京
+    - key: 年龄
+      val: 28
+    - key: 职业
+      val: 开发工程师
+
+banner:
+  index:
+    type: img
+    bgurl: https://pic1.zhimg.com/v2-b3c2c6745b9421a13a3c4706b19223b3_r.jpg?source=1940ef5c
+    bannerTitle: 树深时见鹿，<br>溪午不闻钟。
+    bannerText: Hi my new friend!
+
+footer:
+  powered:
+    #是否显示页脚的 `由 Hexo 驱动 v5.4.2 | 主题 - Async v1.1.7`
+    enable: ture
+  beian:
+    enable: false
+    icp:
+  copyrightYear: 2024
+  live_time:
+    enable: ture
+    prefix: footer.tips
+    start_time: 04/10/2022 17:00:00
+  custom_text: Welcome Lucy
+
+toc:
+  enable: ture
+  list_number: true
+  post_title: true
+  max_depth: 3
+  min_depth: 1
+
+archive:
+  type: more # less or more
+
+post_pagination:
+  enable: true
+  type: large # large || small
+
+categorie_card:
+  enable: true
+  len: 2
+  list: ["分类1", "分类2"]
+
+rightside:
+  readmode: true
+  aside: true
+
+about:
+  insert: before # 插入规则 before（插入在内容前） | after（插入在内容后） | none（不插入）
+  title: 关于标题 # 标题
+  introduction: hi im zys # 个人简单描述
+  blog: 博客信息··· # 博客信息
+  privacy: 请勿粘贴复制 # 隐私权说明
+
+search:
+  enable: true
+  type: local
+
+wordcount:
+  enable: true
+  count: true
+  time: true
