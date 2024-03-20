@@ -16,3 +16,10 @@ npm install
 
 hexo server
 ```
+
+**部署到GitHub**
+```shell
+hexo clean && hexo deploy
+```
+
+> *访问地址:* `https://ghostasoul.github.io`

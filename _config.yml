@@ -3,8 +3,8 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 学习博客
-subtitle: ''
+title: '学习博客'
+subtitle: 'Java知识沉淀'
 description: '学习Java知识的博客'
 keywords:
 author: ZhangYuShuo
@@ -103,5 +103,9 @@ theme: async
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  ##把此博客部署到github上
+  repo: https://github.com/Ghostasoul/ghostasoul.github.io
+  # example, https://github.com/hexojs/hexojs.github.io
+  branch: main
 
