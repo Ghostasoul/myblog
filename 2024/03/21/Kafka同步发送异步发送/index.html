@@ -7,18 +7,21 @@
 <meta name="full-screen" content="yes">
 <meta name="theme-color" content="#317EFB" />
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=0" name="viewport">
-<meta name="description" content="学习Java知识的博客">
-<meta property="og:type" content="website">
-<meta property="og:title" content="学习博客">
-<meta property="og:url" content="http://example.com/tags/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/index.html">
+<meta name="description" content="Kafka对于消息的发送，可以支持同步和异步。同步会阻塞，而异步不需要等待阻塞的过程。从本质上来说，Kafka都是采用异步的方式来发送消息到broker，但是Kafka并不是每次发送消息都会直接发送到broker上，而是把消息放到了一个发送队列中，然后通过一个后台线程不断从队列取出消息进行发送，发送成功会出发callback。Kafka服务端会积累一定量的消息统一组装成一个批量消息发送出去，出发条">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kafka的同步和异步发送">
+<meta property="og:url" content="http://example.com/2024/03/21/Kafka%E5%90%8C%E6%AD%A5%E5%8F%91%E9%80%81%E5%BC%82%E6%AD%A5%E5%8F%91%E9%80%81/index.html">
 <meta property="og:site_name" content="学习博客">
-<meta property="og:description" content="学习Java知识的博客">
+<meta property="og:description" content="Kafka对于消息的发送，可以支持同步和异步。同步会阻塞，而异步不需要等待阻塞的过程。从本质上来说，Kafka都是采用异步的方式来发送消息到broker，但是Kafka并不是每次发送消息都会直接发送到broker上，而是把消息放到了一个发送队列中，然后通过一个后台线程不断从队列取出消息进行发送，发送成功会出发callback。Kafka服务端会积累一定量的消息统一组装成一个批量消息发送出去，出发条">
 <meta property="og:locale">
+<meta property="article:published_time" content="2024-03-20T16:19:22.000Z">
+<meta property="article:modified_time" content="2024-03-20T16:22:46.947Z">
 <meta property="article:author" content="ZhangYuShuo">
+<meta property="article:tag" content="面试题">
 <meta name="twitter:card" content="summary">
 
 
-<title >学习博客</title>
+<title >Kafka的同步和异步发送</title>
 
 <!-- Favicon -->
 
@@ -57,7 +60,7 @@
 
 <!-- Variable -->
 <script>window.ASYNC_CONFIG = {"hostname":"example.com","author":"ZhangYuShuo","root":"/","typed_text":["Java Developer"],"theme_version":"2.1.12","theme":{"switch":true,"default":"style-auto"},"favicon":{"logo":"/img/favicon.svg","icon16":"/img/favicon.svg","icon32":"/img/favicon.svg","appleTouchIcon":null,"webmanifest":null,"visibilitychange":false,"hidden":"/failure.ico","showText":"(/≧▽≦/)咦！又好了！","hideText":"(●—●)喔哟，崩溃啦！"},"i18n":{"placeholder":"搜索文章...","empty":"找不到您查询的内容: ${query}","hits":"找到 ${hits} 条结果","hits_time":"找到 ${hits} 条结果（用时 ${time} 毫秒）","author":"本文作者：","copyright_link":"本文链接：","copyright_license_title":"版权声明：","copyright_license_content":"本博客所有文章除特别声明外，均默认采用 undefined 许可协议。","copy_success":"复制成功","copy_failure":"复制失败","open_read_mode":"进入阅读模式","exit_read_mode":"退出阅读模式","notice_outdate_message":"距离上次更新已经 undefined 天了, 文章内容可能已经过时。","sticky":"置顶","just":"刚刚","min":"分钟前","hour":"小时前","day":"天前","month":"个月前"},"swup":false,"plugin":{"flickr_justified_gallery":"https://unpkg.com/flickr-justified-gallery@latest/dist/fjGallery.min.js"},"icons":{"sun":"far fa-sun","moon":"far fa-moon","play":"fas fa-play","email":"far fa-envelope","next":"fas fa-arrow-right","calendar":"far fa-calendar-alt","clock":"far fa-clock","user":"far fa-user","back_top":"fas fa-arrow-up","close":"fas fa-times","search":"fas fa-search","reward":"fas fa-hand-holding-usd","user_tag":"fas fa-user-alt","toc_tag":"fas fa-th-list","read":"fas fa-book-reader","arrows":"fas fa-arrows-alt-h","double_arrows":"fas fa-angle-double-down","copy":"fas fa-copy"},"icontype":"font","highlight":{"plugin":"highlighjs","theme":true,"copy":true,"lang":true,"title":"default","height_limit":false},"toc":{"post_title":true},"live_time":{"start_time":"04/10/2022 17:00:00","prefix":"博客已萌萌哒运行 undefined 天"},"search":{"enable":true,"type":"local","href":"https://www.google.com/search?q=site:","domain":null,"path":"search.xml"}};</script>
-<script id="async-page-config">window.PAGE_CONFIG = {"isPost":false,"isHome":false,"postUpdate":"2024-03-20 22:40:16"};</script>
+<script id="async-page-config">window.PAGE_CONFIG = {"isPost":true,"isHome":false,"postUpdate":"2024-03-21 00:22:46"};</script>
 
 <!-- Theme mode css -->
 <link data-swup-theme rel="stylesheet" href="/css/index.css?v=2.1.12" id="trm-switch-style">
@@ -142,7 +145,7 @@
             
             <li class="menu-item-has-children ">
                 <a  href="/" target="">
-                    home
+                    首页
                 </a>
                 
                 <ul>
@@ -159,7 +162,35 @@
             
             <li class="menu-item-has-children ">
                 <a data-no-swup href="/archives/" target="">
-                    archives
+                    归档
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/categories/" target="">
+                    分类
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/tags/" target="">
+                    标签
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/about/" target="">
+                    关于
+                </a>
+                
+            </li>
+            
+            <li class="menu-item-has-children ">
+                <a data-no-swup href="/links/" target="">
+                    友情链接
                 </a>
                 
             </li>
@@ -218,10 +249,10 @@
                     <!-- banner title -->
                     <div class="trm-banner-text ">
                         <div class="trm-label trm-mb-20">
-                            The article archive
+                            NEWS LETTER
                         </div>
                         <h1 class="trm-mb-30 trm-hsmb-font">
-                            云间连下榻，<br>天上接行杯。
+                            Kafka的同步和异步发送
                         </h1>
 
                         
@@ -231,7 +262,7 @@
                                 </li>
                                 <li>
                                     <span>
-                                        tags
+                                        2024
                                     </span>
                                 </li>
                             </ul>
@@ -355,103 +386,118 @@
             
             <div class="trm-page-content col-lg-8">
                 <div id="trm-content" class="trm-content">
-                    <div class="row">
-    <div class="col-lg-12">
-        <div class="trm-card">
-            <div style="padding: 0 20px;">
-                
-                    <ul class="row trm-tag-list trm-list" itemprop="keywords"><li class="col-lg-4 trm-list-item"><a class="tag-list-link" href="/tags/Hexo%E6%95%99%E7%A8%8B/" rel="tag">Hexo教程</a><span class="tag-list-count">2</span></li><li class="col-lg-4 trm-list-item"><a class="tag-list-link" href="/tags/%E9%9D%A2%E8%AF%95%E9%A2%98%E7%9B%AE/" rel="tag">面试题目</a><span class="tag-list-count">2</span></li></ul>
-                
-            </div>
+                    <div class="trm-post-info row hidden-sm">
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-calendar-alt trm-icon"></i><br>
+            03/21
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-clock trm-icon"></i><br>
+            00:19
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div id="post-author" class="trm-card trm-label trm-label-light text-center">
+            <i class="iconfont far fa-user trm-icon"></i><br>
+            ZhangYuShuo
         </div>
     </div>
 </div>
+<div class="trm-card ">
+    <article id="article-container" class="trm-publication">
+    <p>Kafka对于消息的发送，可以支持同步和异步。同步会阻塞，而异步不需要等待阻塞的过程。从本质上来说，Kafka都是采用异步的方式来发送消息到<code>broker</code>，但是Kafka并不是每次发送消息都会直接发送到<code>broker</code>上，而是把消息放到了一个发送队列中，然后通过一个后台线程不断从队列取出消息进行发送，发送成功会出发callback。Kafka服务端会积累一定量的消息统一组装成一个批量消息发送出去，出发条件是<code>batch.size</code>和<code>linger.ms</code></p>
 
-<!-- history -->
+</article>
+    
+    
 
-<div class="row">
+</div>
+<div class="trm-post-next-prev row">
     <div class="col-lg-12">
         <!-- title -->
         <h5 class="trm-title-with-divider">
-            
-                面试题目
-            
-            <span data-number="01"></span>
+            其他文章
+            <span data-number="02"></span>
         </h5>
     </div>
-    <div class="col-lg-12">
-        <!-- timeline -->
-        <div class="trm-timeline">
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2024/03/21/MySQL%E4%B8%AD%E5%A6%82%E4%BD%95%E6%8C%87%E5%AE%9A%E5%BC%95%E6%93%8E/" class="trm-cover-frame trm-anima-link">
             
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-a trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2024/03/19/Second/" class="trm-anima-link">
-                                        Kafka如何实现顺序消费？
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">03/19</li>
-                                        <li class="trm-accent-color">22:35</li>
-                                        
-                                        <li>285</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/MySQL/">
+                    MySQL
+                </a>
             </div>
-            
-            <div class="trm-timeline-item trm-scroll-animation">
-                <div class="trm-timeline-mark-light"></div>
-                <div class="trm-timeline-mark"></div>
-                <div class="trm-a trm-timeline-content more">
-                    
-                        <div class="trm-card-header">
-                            <div class="trm-left-side">
-                                <h6>
-                                    <a href="/2024/03/19/First/" class="trm-anima-link">
-                                        使用消息队列的主要目的：解耦、异步、削峰填谷
-                                    </a>
-                                </h6>
-                                <div class="trm-text-sm trm-accent-color trm-mt-15">
-                                    <ul class="trm-card-data trm-label ">
-                                        <li class="trm-accent-color">03/19</li>
-                                        <li class="trm-accent-color">22:31</li>
-                                        
-                                        <li>258</li>
-                                        
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        
-                    
-                </div>
-            </div>
-            
+            <h5>
+                <a href="/2024/03/21/MySQL%E4%B8%AD%E5%A6%82%E4%BD%95%E6%8C%87%E5%AE%9A%E5%BC%95%E6%93%8E/" class="trm-anima-link">
+                    MySQL中如何指定引擎？
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/03/21</li>
+                <li>01:37</li>
+                
+                    <li>74</li>
+                
+                
+                    <li>1</li>
+                
+            </ul>
         </div>
-        <!-- timeline end -->
     </div>
 </div>
-
-<!-- history end -->
-
-
-    <div class="trm-pagination">
-        <span class="page-number current">1</span>
+    
+    
+        <div class="col-lg-6">
+    <div class="trm-blog-card trm-scroll-animation">
+        <a href="/2024/03/19/Kafka%E5%AE%9E%E7%8E%B0%E9%A1%BA%E5%BA%8F%E6%B6%88%E8%B4%B9/" class="trm-cover-frame trm-anima-link">
+            
+            
+                <img alt="cover" class="no-fancybox" src="/img/block.jpg">
+            
+        </a>
+        
+        <div class="trm-card-descr">
+            <div class="trm-label trm-category trm-mb-20">
+                <a href=" /categories/Kafka/">
+                    Kafka
+                </a>
+            </div>
+            <h5>
+                <a href="/2024/03/19/Kafka%E5%AE%9E%E7%8E%B0%E9%A1%BA%E5%BA%8F%E6%B6%88%E8%B4%B9/" class="trm-anima-link">
+                    Kafka如何实现顺序消费？
+                </a>
+            </h5>
+            <div class="trm-divider trm-mb-20 trm-mt-20"></div>
+            <ul class="trm-card-data trm-label">
+                <li>24/03/19</li>
+                <li>22:35</li>
+                
+                    <li>285</li>
+                
+                
+                    <li>1</li>
+                
+            </ul>
+        </div>
     </div>
+</div>
+    
+</div>
 
-
+    
 
 
 
@@ -508,6 +554,10 @@
             
 <div class="trm-fixed-container">
     
+    
+        <div class="trm-fixed-btn" data-title="阅读模式" onclick="asyncFun.switchReadMode()">
+            <i class="iconfont fas fa-book-reader"></i>
+        </div>
     
     
         <div class="trm-fixed-btn hidden-md" data-title="单栏和双栏切换" onclick="asyncFun.switchSingleColumn()">
@@ -588,6 +638,10 @@
     
 
     <!-- 评论插件 -->
+    
+        
+
+        
     
 
 
