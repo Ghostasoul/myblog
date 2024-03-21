@@ -13,14 +13,27 @@ user:
   ruleText: 暂不接受个人博客以外的友链申请，确保您的网站内容积极向上，文章至少30篇，原创70%以上，部署HTTPS。
 
 top_bars:
-  - title: home
+  - title: 首页
     url: /
     children:
       - title: 百度
         url: https://www.baidu.com
-  - title: archives
+  - title: 归档
     url: /archives/
     noswup: true
+  - title: 分类
+    url: /categories/
+    noswup: true
+  - title: 标签
+    url: /tags/
+    noswup: true
+  - title: 关于
+    url: /about/
+    noswup: true
+  - title: 友情链接
+    url: /links/
+    noswup: true
+
 
 sidebar:
   social: # 社交地址
@@ -77,20 +90,15 @@ post_pagination:
   enable: true
   type: large # large || small
 
-categorie_card:
-  enable: true
-  len: 2
-  list: ["分类1", "分类2"]
-
 rightside:
   readmode: true
   aside: true
 
 about:
   insert: before # 插入规则 before（插入在内容前） | after（插入在内容后） | none（不插入）
-  title: 关于标题 # 标题
-  introduction: hi im zys # 个人简单描述
-  blog: 博客信息··· # 博客信息
+  title: 这是记录技术的博客 # 标题
+  introduction: 我是张玉硕，可以通过邮箱联系我··· # 个人简单描述
+  blog: ghostasoul.github.io # 博客信息
   privacy: 请勿粘贴复制 # 隐私权说明
 
 search:
@@ -101,3 +109,9 @@ wordcount:
   enable: true
   count: true
   time: true
+
+links:
+  - name: 白云苍狗1234
+    url: www.imalun.com/
+    image: www.imalun.com/images/avatar.jpg
+    desc: 醒，亦在人间；梦，亦在人间

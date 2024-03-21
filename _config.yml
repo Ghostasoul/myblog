@@ -66,7 +66,7 @@ index_generator:
   order_by: -date
 
 # Category & Tag
-default_category: uncategorized
+default_category: categorized
 category_map:
 tag_map:
 
@@ -106,6 +106,10 @@ deploy:
   type: git
   ##把此博客部署到github上
   repo: https://github.com/Ghostasoul/ghostasoul.github.io
-  # example, https://github.com/hexojs/hexojs.github.io
   branch: main
+
+categorie_card:
+  enable: true
+  len: 5
+  list:
 
