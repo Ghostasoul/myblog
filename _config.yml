@@ -105,8 +105,8 @@ theme: async
 deploy:
   type: git
   ##把此博客部署到github上
-  repo: https://github.com/Ghostasoul/ghostasoul.github.io
-  branch: main
+  repo: https://github.com/Ghostasoul/myblog.git
+  branch: blog
 
 categorie_card:
   enable: true

@@ -4,8 +4,8 @@
 > 
 >所使用的主题网站（通过修改config.yml文件中`theme`字段的值来确认使用哪个主题）：
 > 
-> 1. https://hexo-theme-async.imalun.com（学习博客）
-> 2. https://webstack.hclonely.com（导航网站）
+>https://hexo-theme-async.imalun.com（学习博客）
+
 
 **启动步骤：**
 ```shell
@@ -25,4 +25,4 @@ hexo server
 hexo clean && hexo deploy
 ```
 
-> *访问地址:* `https://ghostasoul.github.io`
+> *页面访问地址:* `https://ghostasoul.github.io/myblog`
