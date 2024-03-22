@@ -97,7 +97,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-##theme: landscape
+##theme: async是主题名称，即_config.async.yml文件名
 theme: async
 
 # Deployment
