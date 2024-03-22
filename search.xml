@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Kafka的同步和异步发送</title>
+    <url>/2024/03/21/Kafka%E5%90%8C%E6%AD%A5%E5%8F%91%E9%80%81%E5%BC%82%E6%AD%A5%E5%8F%91%E9%80%81/</url>
+    <content><![CDATA[<p>Kafka对于消息的发送，可以支持同步和异步。同步会阻塞，而异步不需要等待阻塞的过程。从本质上来说，Kafka都是采用异步的方式来发送消息到<code>broker</code>，但是Kafka并不是每次发送消息都会直接发送到<code>broker</code>上，而是把消息放到了一个发送队列中，然后通过一个后台线程不断从队列取出消息进行发送，发送成功会出发callback。Kafka服务端会积累一定量的消息统一组装成一个批量消息发送出去，出发条件是<code>batch.size</code>和<code>linger.ms</code></p>
+]]></content>
+      <categories>
+        <category>Kafka</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello Hexo</title>
     <url>/2023/04/28/Hello-Hexo/</url>
     <content><![CDATA[<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
@@ -12,18 +24,6 @@
       </categories>
       <tags>
         <tag>Hexo教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kafka的同步和异步发送</title>
-    <url>/2024/03/21/Kafka%E5%90%8C%E6%AD%A5%E5%8F%91%E9%80%81%E5%BC%82%E6%AD%A5%E5%8F%91%E9%80%81/</url>
-    <content><![CDATA[<p>Kafka对于消息的发送，可以支持同步和异步。同步会阻塞，而异步不需要等待阻塞的过程。从本质上来说，Kafka都是采用异步的方式来发送消息到<code>broker</code>，但是Kafka并不是每次发送消息都会直接发送到<code>broker</code>上，而是把消息放到了一个发送队列中，然后通过一个后台线程不断从队列取出消息进行发送，发送成功会出发callback。Kafka服务端会积累一定量的消息统一组装成一个批量消息发送出去，出发条件是<code>batch.size</code>和<code>linger.ms</code></p>
-]]></content>
-      <categories>
-        <category>Kafka</category>
-      </categories>
-      <tags>
-        <tag>面试题</tag>
       </tags>
   </entry>
   <entry>
@@ -62,6 +62,19 @@
       </tags>
   </entry>
   <entry>
+    <title>使用消息队列的主要目的：解耦、异步、削峰填谷</title>
+    <url>/2024/03/19/%E4%BD%BF%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%AE%E7%9A%84/</url>
+    <content><![CDATA[<p><strong>解耦</strong>：在一个复杂的系统中，不同的模块或服务之间可能需要互相依赖，如果直接使用<code>函数调用</code>或者<code>API</code>调用的方式，会造成模块之间的耦合，当其中一个模块发生改变时，需要同时修改调用方和被调用方的代码。而使用消息队列作为中间件，不同的模块可以将消息发送到消息队列中，不需要知道具体的接收方是谁，接收方可以独立的消费消息，实现了模块之间的解耦。</p>
+<p><strong>异步</strong>：有些操作比较耗时，例如<code>发送邮件</code>、<code>生成报表</code>等，如果使用同步的方式处理，会阻塞主线程或者进程，导致系统的性能下降。而使用消息队列，可以讲这些操作封装成消息，放入消息队列中，异步处理这些操作，不影响主流程的执行，提高了系统的性能和相应速度。</p>
+]]></content>
+      <categories>
+        <category>Kafka</category>
+      </categories>
+      <tags>
+        <tag>面试题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2023/05/04/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -83,19 +96,6 @@
       </categories>
       <tags>
         <tag>Hexo教程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用消息队列的主要目的：解耦、异步、削峰填谷</title>
-    <url>/2024/03/19/%E4%BD%BF%E7%94%A8%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97%E7%9B%AE%E7%9A%84/</url>
-    <content><![CDATA[<p><strong>解耦</strong>：在一个复杂的系统中，不同的模块或服务之间可能需要互相依赖，如果直接使用<code>函数调用</code>或者<code>API</code>调用的方式，会造成模块之间的耦合，当其中一个模块发生改变时，需要同时修改调用方和被调用方的代码。而使用消息队列作为中间件，不同的模块可以将消息发送到消息队列中，不需要知道具体的接收方是谁，接收方可以独立的消费消息，实现了模块之间的解耦。</p>
-<p><strong>异步</strong>：有些操作比较耗时，例如<code>发送邮件</code>、<code>生成报表</code>等，如果使用同步的方式处理，会阻塞主线程或者进程，导致系统的性能下降。而使用消息队列，可以讲这些操作封装成消息，放入消息队列中，异步处理这些操作，不影响主流程的执行，提高了系统的性能和相应速度。</p>
-]]></content>
-      <categories>
-        <category>Kafka</category>
-      </categories>
-      <tags>
-        <tag>面试题</tag>
       </tags>
   </entry>
 </search>
