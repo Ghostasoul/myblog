@@ -13,7 +13,9 @@ timezone: ''
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
-url: http://example.com
+## 如果放到github pages，但是没有设置这个url地址的话，会导致样式加载失败，因为样式加载的css和js地址中是没有project名的
+##（例如：https://ghostasoul.github.io/css/index.css），这样就会导致失败
+url: https://ghostasoul.github.io/myblog
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
