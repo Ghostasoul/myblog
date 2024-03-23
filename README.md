@@ -21,6 +21,8 @@ hexo server
 ```
 
 **部署到编译过的文件到GitHub Pages**
+
+部署到的是myblog项目中的blog分支，main分支存储的是源文件
 ```shell
 hexo clean && hexo deploy
 ```
